@@ -13,21 +13,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 @ComponentScan
 public class HellbootApplication {
 
-
-  @Bean
-  public ServletWebServerFactory servletWebServerFactory() {
-    return new TomcatServletWebServerFactory();
-  }
-
-
-  @Bean
-  public DispatcherServlet dispatcherServlet() {
-    return new DispatcherServlet();
-  }
-
-
-  public static void main(String[] args) {
-//    SpringApplication.run(HellbootApplication.class, args);
+  public static void run(Class<?> applicationClass, String[] args) {
     AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext() {
       @Override
       protected void onRefresh() {
