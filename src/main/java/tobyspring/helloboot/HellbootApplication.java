@@ -1,17 +1,29 @@
 package tobyspring.helloboot;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServer;
-import org.springframework.web.context.support.GenericWebApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-@SpringBootApplication
+@Configuration
 public class HellbootApplication {
+
+  @Bean
+  public HelloController helloController(HelloInterface helloInterface) {
+    return new HelloController(helloInterface);
+  }
+
+  @Bean
+  public HelloInterface helloService() {
+    return new HelloService();
+  }
+
 
   public static void main(String[] args) {
 //    SpringApplication.run(HellbootApplication.class, args);
-    GenericWebApplicationContext applicationContext = new GenericWebApplicationContext() {
+    AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext() {
       @Override
       protected void onRefresh() {
         super.onRefresh();
@@ -23,8 +35,7 @@ public class HellbootApplication {
         webServer.start();
       }
     };
-    applicationContext.registerBean(HelloController.class);
-    applicationContext.registerBean(HelloService.class);
+    applicationContext.register(HellbootApplication.class);
     applicationContext.refresh();
   }
 
